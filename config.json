@@ -1,0 +1,147 @@
+{
+  "version": "2.0.0",
+  "service_name": "Mi AI Service - RunPod Edition",
+  "description": "Arabic-focused AI image generation with automatic Git sync",
+  
+  "sync_settings": {
+    "enabled": true,
+    "sync_interval": 300,
+    "backup_interval": 3600,
+    "auto_restart": true,
+    "github_repo": "yourusername/mi-ai-service-runpod",
+    "github_branch": "main"
+  },
+  
+  "supabase": {
+    "table_name": "generations",
+    "storage_bucket": "generated-images",
+    "max_file_size_mb": 10,
+    "thumbnail_size": [256, 256],
+    "image_quality": 85
+  },
+  
+  "ai_models": {
+    "primary_model": "stabilityai/stable-diffusion-3.5-large",
+    "arabic_lora": "arabic-architecture-v2",
+    "backup_model": "runwayml/stable-diffusion-v1-5",
+    "use_safety_checker": true,
+    "gpu_memory_fraction": 0.8
+  },
+  
+  "generation_settings": {
+    "default_size": [1024, 1024],
+    "max_size": [1536, 1536],
+    "min_size": [512, 512],
+    "quality_presets": {
+      "fast": {
+        "steps": 20,
+        "cfg_scale": 7.0,
+        "sampler": "DPMSolverMultistep"
+      },
+      "quality": {
+        "steps": 30,
+        "cfg_scale": 8.0,
+        "sampler": "DPMSolverMultistep"
+      },
+      "premium": {
+        "steps": 50,
+        "cfg_scale": 9.0,
+        "sampler": "DPMSolverMultistep"
+      }
+    }
+  },
+  
+  "arabic_styles": {
+    "architecture": {
+      "name": "Arabic Architecture",
+      "icon": "🕌",
+      "colors": ["#D4AF37", "#B8860B", "#DAA520", "#CD853F"],
+      "prompt_suffix": "Islamic architecture, geometric patterns, ornate details",
+      "negative_prompt": "modern, western, contemporary",
+      "quality_preset": "quality"
+    },
+    "golden": {
+      "name": "Golden Ornaments",
+      "icon": "⭐",
+      "colors": ["#FFD700", "#FFA500", "#FF8C00", "#DAA520"],
+      "prompt_suffix": "golden ornaments, luxury Arabic design, intricate details",
+      "negative_prompt": "plain, simple, cheap",
+      "quality_preset": "premium"
+    },
+    "patterns": {
+      "name": "Geometric Patterns",
+      "icon": "🎨",
+      "colors": ["#4B0082", "#6A0DAD", "#9370DB", "#8A2BE2"],
+      "prompt_suffix": "Islamic geometric patterns, arabesque, symmetrical design",
+      "negative_prompt": "chaotic, random, asymmetrical",
+      "quality_preset": "quality"
+    },
+    "calligraphy": {
+      "name": "Arabic Calligraphy",
+      "icon": "✍️",
+      "colors": ["#8B4513", "#A0522D", "#CD853F", "#D2691E"],
+      "prompt_suffix": "Arabic calligraphy, Islamic art, elegant script",
+      "negative_prompt": "latin text, english, simple font",
+      "quality_preset": "premium"
+    },
+    "ramadan": {
+      "name": "Ramadan Special",
+      "icon": "🌙",
+      "colors": ["#800080", "#9932CC", "#BA55D3", "#4B0082"],
+      "prompt_suffix": "Ramadan decorations, crescent moon, lanterns, festive",
+      "negative_prompt": "christmas, western holiday",
+      "quality_preset": "quality"
+    }
+  },
+  
+  "performance": {
+    "max_concurrent_generations": 3,
+    "queue_timeout_seconds": 300,
+    "image_cache_size_mb": 500,
+    "cleanup_interval_hours": 6,
+    "max_task_history": 1000
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "max_file_size_mb": 50,
+    "backup_count": 5,
+    "log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "log_files": {
+      "main": "logs/service.log",
+      "sync": "logs/sync.log",
+      "backup": "logs/backup.log",
+      "errors": "logs/error.log"
+    }
+  },
+  
+  "security": {
+    "rate_limit": {
+      "requests_per_minute": 10,
+      "requests_per_hour": 100
+    },
+    "allowed_origins": ["*"],
+    "require_auth": false,
+    "max_prompt_length": 500
+  },
+  
+  "monitoring": {
+    "health_check_interval": 30,
+    "collect_metrics": true,
+    "prometheus_port": 9090,
+    "alert_thresholds": {
+      "gpu_memory_percent": 90,
+      "queue_size": 10,
+      "error_rate_percent": 5
+    }
+  },
+  
+  "backup": {
+    "enabled": true,
+    "keep_last_images": 20,
+    "backup_configs": true,
+    "backup_logs": false,
+    "compression": "gzip",
+    "encryption": false
+  }
+}
